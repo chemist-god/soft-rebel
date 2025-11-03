@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products - SoftRebel Luxury Skincare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --earth-brown: #3D2914;
+            --warm-sand: #F4E4BC;
+            --rich-gold: #D4AF37;
+            --soft-cream: #FFF8E7;
+            --terracotta: #C65D07;
+            --forest-green: #2D5016;
+            --soft-coral: #E07A5F;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--soft-cream) 0%, var(--warm-sand) 100%);
+            min-height: 100vh;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 248, 231, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 248, 231, 0.2);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--rich-gold) 0%, var(--terracotta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--rich-gold) 0%, var(--terracotta) 100%);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px) rotateX(5deg);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(61, 41, 20, 0.15), 0 0 30px rgba(212, 175, 55, 0.3), 0 0 60px rgba(212, 175, 55, 0.1);
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .geometric-pattern {
+            background-image: radial-gradient(circle at 25% 25%, var(--rich-gold) 2px, transparent 2px),
+                              radial-gradient(circle at 75% 75%, var(--terracotta) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.1;
+        }
+        
+        .filter-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--rich-gold) 0%, var(--terracotta) 100%);
+            color: white;
+        }
+        
+        .product-modal {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold text-gradient">SoftRebel</div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-800 hover:text-yellow-600 transition-colors">Home</a>
+                    <a href="products.html" class="text-yellow-600 font-semibold">Products</a>
+                    <a href="education.html" class="text-gray-800 hover:text-yellow-600 transition-colors">Education</a>
+                </div>
+                <button class="md:hidden text-gray-800" onclick="toggleMobileMenu()">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+            <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg rounded-lg mt-4 p-4 space-y-2">
+                <a href="index.html" class="block py-2 text-gray-800 hover:text-yellow-600 transition-colors">Home</a>
+                <a href="products.html" class="block py-2 text-yellow-600 font-semibold">Products</a>
+                <a href="education.html" class="block py-2 text-gray-800 hover:text-yellow-600 transition-colors">Education</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-24 pb-16 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+        <div class="geometric-pattern absolute inset-0"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 fade-in">
+                <h1 class="text-5xl lg:text-6xl font-bold text-gray-800 mb-6">
+                    Premium African <span class="text-gradient">Botanicals</span>
+                </h1>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Discover our complete range of luxury skincare products, each formulated with authentic African ingredients and modern science for your unique skin needs.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Filters -->
+    <section class="py-4 md:py-8 bg-white md:sticky md:top-20 z-40 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex md:flex-wrap justify-start md:justify-center gap-4 overflow-x-auto pb-2 md:pb-0">
+                <button onclick="filterProducts('all')" class="filter-btn active px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold border border-gray-300 flex-shrink-0 whitespace-nowrap">
+                    All Products
+                </button>
+                <button onclick="filterProducts('cleanser')" class="filter-btn px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold border border-gray-300 flex-shrink-0 whitespace-nowrap">
+                    Cleansers
+                </button>
+                <button onclick="filterProducts('moisturizer')" class="filter-btn px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold border border-gray-300 flex-shrink-0 whitespace-nowrap">
+                    Moisturizers
+                </button>
+                <button onclick="filterProducts('serum')" class="filter-btn px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold border border-gray-300 flex-shrink-0 whitespace-nowrap">
+                    Serums
+                </button>
+                <button onclick="filterProducts('treatment')" class="filter-btn px-4 py-2 md:px-6 md:py-3 rounded-full font-semibold border border-gray-300 flex-shrink-0 whitespace-nowrap">
+                    Treatments
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products Carousel -->
+    <section class="py-12 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center fade-in">Featured Products</h2>
+            <div class="splide fade-in" id="featured-slider">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg mx-4">
+                                <div class="relative mb-6">
+                                    <div class="w-full h-48 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl flex items-center justify-center">
+                                        <div class="text-6xl">🧴</div>
+                                    </div>
+                                    <div class="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                                        Bestseller
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Purifying Cleanser</h3>
+                                <p class="text-gray-600 mb-4 text-sm">Gentle yet effective cleanser with African black soap</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-gradient">$45</span>
+                                    <button onclick="addToCart('purifying-cleanser')" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all">Add to Cart</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg mx-4">
+                                <div class="relative mb-6">
+                                    <div class="w-full h-48 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl flex items-center justify-center">
+                                        <div class="text-6xl">✨</div>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Radiance Serum</h3>
+                                <p class="text-gray-600 mb-4 text-sm">Brightening serum with rooibos and vitamin C</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-gradient">$85</span>
+                                    <button onclick="addToCart('radiance-serum')" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all">Add to Cart</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg mx-4">
+                                <div class="relative mb-6">
+                                    <div class="w-full h-48 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center">
+                                        <div class="text-6xl">🌿</div>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Rejuvenating Mask</h3>
+                                <p class="text-gray-600 mb-4 text-sm">Weekly treatment with clay and botanicals</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-gradient">$55</span>
+                                    <button onclick="addToCart('rejuvenating-mask')" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all">Add to Cart</button>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg mx-4">
+                                <div class="relative mb-6">
+                                    <div class="w-full h-48 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl flex items-center justify-center">
+                                        <div class="text-6xl">👁️</div>
+                                    </div>
+                                </div>
+                                <h3 class="text-xl font-bold text-gray-800 mb-2">Revitalizing Eye Cream</h3>
+                                <p class="text-gray-600 mb-4 text-sm">Anti-aging eye treatment with marula oil</p>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-2xl font-bold text-gradient">$75</span>
+                                    <button onclick="addToCart('eye-cream')" class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all">Add to Cart</button>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" id="product-grid">
+                
+                <!-- Purifying Cleanser -->
+                <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg fade-in" data-category="cleanser">
+                    <div class="relative mb-6">
+                        <div class="w-full h-48 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl flex items-center justify-center">
+                            <div class="text-6xl">🧴</div>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            Bestseller
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Purifying Cleanser</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Gentle yet effective cleanser with African black soap and shea butter</p>
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm mr-2">⭐⭐⭐⭐⭐</div>
+                        <span class="text-gray-500 text-sm">(127 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl font-bold text-gradient">$45</span>
+                        <span class="text-sm text-gray-500">150ml</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="addToCart('purifying-cleanser')" class="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                        <button onclick="viewProduct('purifying-cleanser')" class="px-4 py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hydrating Moisturizer -->
+                <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg fade-in" data-category="moisturizer">
+                    <div class="relative mb-6">
+                        <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-teal-100 rounded-2xl flex items-center justify-center">
+                            <div class="text-6xl">💧</div>
+                        </div>
+                        <div class="absolute top-4 right-4 bg-gradient-to-r from-green-400 to-emerald-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                            New
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Hydrating Moisturizer</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Deep hydration with marula oil and baobab extract</p>
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm mr-2">⭐⭐⭐⭐⭐</div>
+                        <span class="text-gray-500 text-sm">(89 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl font-bold text-gradient">$65</span>
+                        <span class="text-sm text-gray-500">50ml</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="addToCart('hydrating-moisturizer')" class="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                        <button onclick="viewProduct('hydrating-moisturizer')" class="px-4 py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Radiance Serum -->
+                <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg fade-in" data-category="serum">
+                    <div class="relative mb-6">
+                        <div class="w-full h-48 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl flex items-center justify-center">
+                            <div class="text-6xl">✨</div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Radiance Serum</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Brightening serum with rooibos and vitamin C</p>
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm mr-2">⭐⭐⭐⭐⭐</div>
+                        <span class="text-gray-500 text-sm">(156 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl font-bold text-gradient">$85</span>
+                        <span class="text-sm text-gray-500">30ml</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="addToCart('radiance-serum')" class="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                        <button onclick="viewProduct('radiance-serum')" class="px-4 py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rejuvenating Mask -->
+                <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg fade-in" data-category="treatment">
+                    <div class="relative mb-6">
+                        <div class="w-full h-48 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl flex items-center justify-center">
+                            <div class="text-6xl">🌿</div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Rejuvenating Mask</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Weekly treatment with clay and botanical extracts</p>
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm mr-2">⭐⭐⭐⭐⭐</div>
+                        <span class="text-gray-500 text-sm">(73 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl font-bold text-gradient">$55</span>
+                        <span class="text-sm text-gray-500">100ml</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="addToCart('rejuvenating-mask')" class="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                        <button onclick="viewProduct('rejuvenating-mask')" class="px-4 py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Eye Cream -->
+                <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg fade-in" data-category="treatment">
+                    <div class="relative mb-6">
+                        <div class="w-full h-48 bg-gradient-to-br from-indigo-100 to-purple-100 rounded-2xl flex items-center justify-center">
+                            <div class="text-6xl">👁️</div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Revitalizing Eye Cream</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Anti-aging eye treatment with marula oil and peptides</p>
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm mr-2">⭐⭐⭐⭐⭐</div>
+                        <span class="text-gray-500 text-sm">(94 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl font-bold text-gradient">$75</span>
+                        <span class="text-sm text-gray-500">15ml</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="addToCart('eye-cream')" class="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                        <button onclick="viewProduct('eye-cream')" class="px-4 py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Toner -->
+                <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg fade-in" data-category="cleanser">
+                    <div class="relative mb-6">
+                        <div class="w-full h-48 bg-gradient-to-br from-cyan-100 to-blue-100 rounded-2xl flex items-center justify-center">
+                            <div class="text-6xl">💦</div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Balancing Toner</h3>
+                    <p class="text-gray-600 mb-4 text-sm">pH-balancing toner with rooibos and witch hazel</p>
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm mr-2">⭐⭐⭐⭐⭐</div>
+                        <span class="text-gray-500 text-sm">(112 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl font-bold text-gradient">$35</span>
+                        <span class="text-sm text-gray-500">200ml</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="addToCart('balancing-toner')" class="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                        <button onclick="viewProduct('balancing-toner')" class="px-4 py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Night Oil -->
+                <div class="product-card card-hover bg-white rounded-3xl p-6 shadow-lg fade-in" data-category="serum">
+                    <div class="relative mb-6">
+                        <div class="w-full h-48 bg-gradient-to-br from-amber-100 to-yellow-100 rounded-2xl flex items-center justify-center">
+                            <div class="text-6xl">🌙</div>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Overnight Recovery Oil</h3>
+                    <p class="text-gray-600 mb-4 text-sm">Restorative night oil with baobab and marula oils</p>
+                    <div class="flex items-center mb-4">
+                        <div class="flex text-yellow-400 text-sm mr-2">⭐⭐⭐⭐⭐</div>
+                        <span class="text-gray-500 text-sm">(67 reviews)</span>
+                    </div>
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-2xl font-bold text-gradient">$95</span>
+                        <span class="text-sm text-gray-500">30ml</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="addToCart('night-oil')" class="flex-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-3 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                        <button onclick="viewProduct('night-oil')" class="px-4 py-3 border border-gray-300 rounded-full hover:bg-gray-50 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Ingredient Spotlight -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+                    African <span class="text-gradient">Ingredient</span> Spotlight
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Discover the powerful botanicals that make our formulations unique and effective
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <img src="resources/african-ingredients.jpg" alt="African botanical ingredients" class="rounded-3xl shadow-2xl w-full">
+                </div>
+                <div class="space-y-8 fade-in">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="text-3xl mr-3">🥜</span>
+                            Shea Butter
+                        </h3>
+                        <p class="text-gray-600 mb-4">Rich in vitamins A and E, shea butter provides deep moisturization and natural UV protection. Sourced from women's cooperatives in Ghana.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full mr-2">Sustainable</span>
+                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">Fair Trade</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="text-3xl mr-3">🌰</span>
+                            Marula Oil
+                        </h3>
+                        <p class="text-gray-600 mb-4">Known as "Africa's beauty secret," marula oil is rich in antioxidants and essential fatty acids, providing anti-aging benefits without clogging pores.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <span class="bg-purple-100 text-purple-800 px-3 py-1 rounded-full mr-2">Anti-Aging</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full">Fast Absorbing</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white rounded-2xl p-6 shadow-lg">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4 flex items-center">
+                            <span class="text-3xl mr-3">🌳</span>
+                            Baobab Oil
+                        </h3>
+                        <p class="text-gray-600 mb-4">From the "Tree of Life," baobab oil contains six times more vitamin C than oranges, promoting collagen production and skin elasticity.</p>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full mr-2">Vitamin C</span>
+                            <span class="bg-red-100 text-red-800 px-3 py-1 rounded-full">Collagen Boost</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Modal -->
+    <div id="product-modal" class="product-modal fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-8">
+                <div class="flex justify-between items-start mb-6">
+                    <h2 id="modal-title" class="text-3xl font-bold text-gray-800"></h2>
+                    <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-8">
+                    <div>
+                        <div id="modal-image" class="w-full h-80 bg-gray-100 rounded-2xl mb-6 flex items-center justify-center">
+                            <!-- Product image will be inserted here -->
+                        </div>
+                    </div>
+                    <div>
+                        <div id="modal-content">
+                            <!-- Product details will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="text-3xl font-bold text-gradient mb-4">SoftRebel</div>
+            <p class="text-gray-400 mb-6">Personalized AI Skincare for African Skin</p>
+            <p class="text-gray-500 text-sm"> 2024 SoftRebel. Celebrating African beauty traditions with modern technology.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Product filtering functionality
+        function filterProducts(category) {
+            const cards = document.querySelectorAll('.product-card');
+            const buttons = document.querySelectorAll('.filter-btn');
+            
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Filter cards
+            cards.forEach(card => {
+                if (category === 'all' || card.dataset.category === category) {
+                    card.style.display = 'block';
+                    anime({
+                        targets: card,
+                        opacity: [0, 1],
+                        scale: [0.9, 1],
+                        duration: 400,
+                        easing: 'easeOutQuart'
+                    });
+                } else {
+                    anime({
+                        targets: card,
+                        opacity: [1, 0],
+                        scale: [1, 0.9],
+                        duration: 300,
+                        easing: 'easeInQuart',
+                        complete: () => {
+                            card.style.display = 'none';
+                        }
+                    });
+                }
+            });
+        }
+
+        // Add to cart functionality
+        function addToCart(productId) {
+            showNotification('Product added to cart!');
+            
+            // Animate button
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = 'Added!';
+            button.style.background = 'linear-gradient(135deg, #10B981, #059669)';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'linear-gradient(135deg, #FBBF24, #F97316)';
+            }, 1500);
+        }
+
+        // View product details
+        function viewProduct(productId) {
+            const modal = document.getElementById('product-modal');
+            const title = document.getElementById('modal-title');
+            const image = document.getElementById('modal-image');
+            const content = document.getElementById('modal-content');
+            
+            // Product data
+            const products = {
+                'purifying-cleanser': {
+                    title: 'Purifying Cleanser',
+                    price: '$45',
+                    size: '150ml',
+                    description: 'A gentle yet effective cleanser formulated with traditional African black soap and nourishing shea butter. Perfect for daily use, it removes impurities while maintaining your skin\'s natural moisture balance.',
+                    ingredients: ['African Black Soap', 'Shea Butter', 'Marula Oil', 'Aloe Vera', 'Rooibos Extract'],
+                    benefits: ['Deep cleansing without stripping', 'Maintains pH balance', 'Rich in antioxidants', 'Suitable for all skin types'],
+                    howToUse: 'Massage onto damp skin morning and evening. Rinse thoroughly with lukewarm water. Follow with toner and moisturizer.'
+                },
+                'hydrating-moisturizer': {
+                    title: 'Hydrating Moisturizer',
+                    price: '$65',
+                    size: '50ml',
+                    description: 'Luxurious moisturizer infused with the finest African botanicals. Marula oil and baobab extract provide deep hydration while improving skin elasticity and radiance.',
+                    ingredients: ['Marula Oil', 'Baobab Extract', 'Shea Butter', 'Hyaluronic Acid', 'Vitamin E'],
+                    benefits: ['24-hour hydration', 'Improves skin elasticity', 'Anti-aging properties', 'Lightweight formula'],
+                    howToUse: 'Apply to clean skin morning and evening. Massage gently in upward circular motions until fully absorbed.'
+                }
+                // Add more products as needed
+            };
+            
+            const product = products[productId] || products['purifying-cleanser'];
+            
+            title.textContent = product.title;
+            image.innerHTML = `<div class="text-8xl">🧴</div>`;
+            
+            content.innerHTML = `
+                <div class="mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <span class="text-3xl font-bold text-gradient">${product.price}</span>
+                        <span class="text-lg text-gray-500">${product.size}</span>
+                    </div>
+                    <div class="flex text-yellow-400 mb-4">⭐⭐⭐⭐⭐ <span class="text-gray-500 ml-2">(4.8/5)</span></div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Description</h3>
+                    <p class="text-gray-600">${product.description}</p>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Key Ingredients</h3>
+                    <div class="flex flex-wrap gap-2">
+                        ${product.ingredients.map(ingredient => 
+                            `<span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">${ingredient}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Benefits</h3>
+                    <ul class="space-y-2">
+                        ${product.benefits.map(benefit => 
+                            `<li class="flex items-center text-gray-600"><span class="text-green-500 mr-2">✓</span>${benefit}</li>`
+                        ).join('')}
+                    </ul>
+                </div>
+                
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">How to Use</h3>
+                    <p class="text-gray-600">${product.howToUse}</p>
+                </div>
+                
+                <button onclick="addToCart('${productId}')" class="w-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white py-4 rounded-full text-lg font-semibold hover:shadow-lg transition-all">
+                    Add to Cart - ${product.price}
+                </button>
+            `;
+            
+            modal.classList.remove('hidden');
+            
+            // Animate modal
+            anime({
+                targets: modal.querySelector('.bg-white'),
+                scale: [0.8, 1],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutQuart'
+            });
+        }
+
+        // Close modal
+        function closeModal() {
+            const modal = document.getElementById('product-modal');
+            
+            anime({
+                targets: modal.querySelector('.bg-white'),
+                scale: [1, 0.8],
+                opacity: [1, 0],
+                duration: 200,
+                easing: 'easeInQuart',
+                complete: () => {
+                    modal.classList.add('hidden');
+                }
+            });
+        }
+
+        // Notification system
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-20 right-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-6 py-3 rounded-full shadow-lg z-50 transform translate-x-full';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            anime({
+                targets: notification,
+                translateX: [100, 0],
+                opacity: [0, 1],
+                duration: 300,
+                easing: 'easeOutQuart'
+            });
+
+            setTimeout(() => {
+                anime({
+                    targets: notification,
+                    translateX: [0, 100],
+                    opacity: [1, 0],
+                    duration: 300,
+                    easing: 'easeInQuart',
+                    complete: () => {
+                        document.body.removeChild(notification);
+                    }
+                });
+            }, 3000);
+        }
+
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            // Fade in animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Initialize Splide carousel
+            new Splide('#featured-slider', {
+                type: 'loop',
+                perPage: 3,
+                breakpoints: {
+                    1024: { perPage: 2 },
+                    768: { perPage: 1 }
+                },
+                autoplay: true,
+                interval: 4000,
+                pauseOnHover: true
+            }).mount();
+
+            // Initial animation
+            anime({
+                targets: '.fade-in',
+                opacity: [0, 1],
+                translateY: [30, 0],
+                duration: 800,
+                delay: anime.stagger(100),
+                easing: 'easeOutQuart'
+            });
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('product-modal').addEventListener('click', (e) => {
+            if (e.target.id === 'product-modal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
