@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>SoftRebel — Prototype: AI Skin Scan</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="brand">
+        <h1>SoftRebel</h1>
+        <p class="tag">Personalized AI skincare for African skin — prototype</p>
+      </header>
+
+      <section class="scan-panel">
+        <div class="video-wrap">
+          <video id="video" autoplay playsinline></video>
+          <div class="overlay">Align face here</div>
+        </div>
+
+        <div class="controls">
+          <button id="startBtn" class="btn">Start Camera</button>
+          <button id="captureBtn" class="btn primary" disabled>Capture</button>
+          <button id="tryAgainBtn" class="btn" disabled>Try Again</button>
+        </div>
+
+        <canvas id="canvas" width="640" height="480" hidden></canvas>
+      </section>
+
+      <section id="results" class="results" aria-live="polite" hidden>
+        <h2>Scan results</h2>
+        <div class="summary">
+          <div class="tone">
+            <strong>Detected tone</strong>
+            <div id="toneLabel" class="label">—</div>
+          </div>
+          <div class="conditions">
+            <strong>Conditions</strong>
+            <ul id="conditionsList"></ul>
+          </div>
+          <div class="confidence">
+            <strong>Confidence</strong>
+            <div id="confidence">—</div>
+          </div>
+        </div>
+
+        <div class="recommendations">
+          <h3>Recommended routine</h3>
+          <div id="routineCards" class="cards"></div>
+          <div class="actions">
+            <button id="saveRoutine" class="btn primary">Save routine</button>
+            <button id="buyKit" class="btn">Buy full kit (mock)</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="notes">
+        <small
+          >Prototype: client camera capture + mock inference. No images are
+          uploaded. This demo stores routines locally only.</small
+        >
+      </footer>
+    </main>
+
+    <script src="js/app.js"></script>
+  </body>
+</html>

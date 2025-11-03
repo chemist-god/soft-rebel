@@ -1,0 +1,48 @@
+# Files and folders to ignore (local/editor/build artifacts, secrets)
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Node (if you ever add node-based tooling)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build / output folders
+dist/
+build/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# IDEs and editors
+.vscode/
+*.sublime-workspace
+*.sublime-project
+*.swp
+*~
+
+# Logs
+*.log
+
+# Environment / secrets
+.env
+*.pem
+*.key
+
+# Temporary system files
+Thumbs.db
+ehthumbs.db
+
+# Ignore OS generated files
+Icon?
+
+# Optional: local preview files, caches
+.cache/
+.DS_Store?
