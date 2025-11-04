@@ -110,7 +110,12 @@
                     </svg>
                 </button>
             </div>
-            <div id="mobile-menu" class="hidden md:hidden bg-white shadow-lg rounded-lg mt-4 p-4 space-y-2">
+            <div id="mobile-menu" class="hidden bg-white shadow-lg rounded-lg mt-4 p-4 space-y-2 relative">
+                <button onclick="closeMobileMenu()" class="absolute top-2 right-2 text-gray-500 hover:text-gray-700 z-10">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
                 <a href="index.html" class="block py-2 text-gray-800 hover:text-yellow-600 transition-colors">Home</a>
                 <a href="products.html" class="block py-2 text-yellow-600 font-semibold">Products</a>
                 <a href="education.html" class="block py-2 text-gray-800 hover:text-yellow-600 transition-colors">Education</a>
@@ -471,7 +476,7 @@
 
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div class="fade-in">
-                    <img src="resources/african-ingredients.jpg" alt="African botanical ingredients" class="rounded-3xl shadow-2xl w-full">
+                    <img src="demos/spa/images/others/product-line.jpg" alt="Product Image" class="w-full h-full object-cover rounded-2xl">
                 </div>
                 <div class="space-y-8 fade-in">
                     <div class="bg-white rounded-2xl p-6 shadow-lg">
@@ -555,7 +560,30 @@
         // Mobile menu toggle
         function toggleMobileMenu() {
             const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                anime({
+                    targets: menu,
+                    opacity: [0, 1],
+                    translateY: [-20, 0],
+                    duration: 300,
+                    easing: 'easeOutQuart'
+                });
+            } else {
+                closeMobileMenu();
+            }
+        }
+
+        function closeMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            anime({
+                targets: menu,
+                opacity: [1, 0],
+                translateY: [0, -20],
+                duration: 200,
+                easing: 'easeInQuart',
+                complete: () => menu.classList.add('hidden')
+            });
         }
 
         // Product filtering functionality
@@ -784,6 +812,15 @@
                 duration: 800,
                 delay: anime.stagger(100),
                 easing: 'easeOutQuart'
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', (e) => {
+                const menu = document.getElementById('mobile-menu');
+                const button = document.querySelector('button[onclick="toggleMobileMenu()"]');
+                if (!menu.contains(e.target) && !button.contains(e.target) && !menu.classList.contains('hidden')) {
+                    closeMobileMenu();
+                }
             });
         });
 
