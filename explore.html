@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SoftRebel - Personalized AI Skincare for African Skin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/js/splide.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.4/dist/css/splide.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --earth-brown: #3D2914;
+            --warm-sand: #F4E4BC;
+            --rich-gold: #D4AF37;
+            --soft-cream: #FFF8E7;
+            --terracotta: #C65D07;
+            --forest-green: #2D5016;
+            --soft-coral: #E07A5F;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, var(--soft-cream) 0%, var(--warm-sand) 100%);
+            min-height: 100vh;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(135deg, rgba(61, 41, 20, 0.8) 0%, rgba(212, 175, 55, 0.6) 100%),
+                        url('demos/spa/images/others/hero-african-skincare.jpg') center/cover;
+            min-height: 100vh;
+            position: relative;
+        }
+        
+        .glass-effect {
+            background: rgba(255, 248, 231, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 248, 231, 0.2);
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--rich-gold) 0%, var(--terracotta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--rich-gold) 0%, var(--terracotta) 100%);
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px) rotateX(5deg);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(61, 41, 20, 0.15);
+        }
+        
+        .analysis-interface {
+            background: rgba(255, 248, 231, 0.95);
+            backdrop-filter: blur(15px);
+            border: 2px solid var(--rich-gold);
+        }
+        
+        .progress-ring {
+            transform: rotate(-90deg);
+        }
+        
+        .progress-ring-circle {
+            stroke-dasharray: 251.2;
+            stroke-dashoffset: 251.2;
+            transition: stroke-dashoffset 0.5s ease-in-out;
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: all 0.6s ease;
+        }
+        
+        .geometric-pattern {
+            background-image: radial-gradient(circle at 25% 25%, var(--rich-gold) 2px, transparent 2px),
+                              radial-gradient(circle at 75% 75%, var(--terracotta) 1px, transparent 1px);
+            background-size: 40px 40px;
+            opacity: 0.1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="text-2xl font-bold text-gradient">
+                    SoftRebel
+                </div>
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-gray-800 hover:text-yellow-600 transition-colors">Home</a>
+                    <a href="products.html" class="text-gray-800 hover:text-yellow-600 transition-colors">Products</a>
+                    <a href="education.html" class="text-gray-800 hover:text-yellow-600 transition-colors">Education</a>
+                    <a href="facial.html" class="text-gray-800 hover:text-yellow-600 transition-colors">Facial Test</a>
+                </div>
+                <button class="md:hidden text-gray-800">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-bg flex items-center justify-center relative overflow-hidden">
+        <div class="geometric-pattern absolute inset-0"></div>
+        <div class="max-w-7xl mx-auto px-6 py-20 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="text-center lg:text-left">
+                    <h1 class="text-5xl lg:text-7xl font-bold text-white mb-6 fade-in">
+                        <span class="italic">Personalized</span><br>
+                        <span class="text-gradient">AI Skincare</span><br>
+                        for African Skin
+                    </h1>
+                    <p class="text-xl text-gray-200 mb-8 leading-relaxed fade-in">
+                        Discover the power of AI-driven skincare analysis tailored specifically for African skin tones and textures. Experience luxury formulations inspired by traditional African botanicals.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start fade-in">
+                        <button onclick="startAnalysis()" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold">
+                            Start AI Analysis
+                        </button>
+                        <button onclick="scrollToProducts()" class="glass-effect text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-gray-800 transition-all">
+                            Explore Products
+                        </button>
+                    </div>
+                </div>
+                <div class="relative">
+                    <div class="floating-element">
+                        <img src="demos/spa/images/others/hero-african-skincare.jpg" alt="African woman with radiant skin" class="rounded-2xl shadow-2xl w-full max-w-md mx-auto">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Analysis Interface -->
+    <section id="analysis-section" class="py-20 bg-gradient-to-br from-gray-50 to-white relative">
+        <div class="geometric-pattern absolute inset-0"></div>
+        <div class="max-w-6xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+                    AI-Powered Skin Analysis
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Our advanced AI technology analyzes your unique skin characteristics to provide personalized recommendations based on African skincare traditions and modern science.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="analysis-interface rounded-3xl p-8 fade-in">
+                    <div id="analysis-camera" class="text-center">
+                        <div class="w-80 h-80 mx-auto bg-gray-100 rounded-2xl flex items-center justify-center mb-6 relative overflow-hidden">
+                            <video id="camera-feed" class="w-full h-full object-cover rounded-2xl hidden" autoplay muted></video>
+                            <div id="camera-placeholder" class="text-center">
+                                <div class="w-24 h-24 mx-auto mb-4 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center">
+                                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"></path>
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    </svg>
+                                </div>
+                                <p class="text-gray-600">Position your face in the frame</p>
+                            </div>
+                        </div>
+                        <button id="start-camera" onclick="initiateCamera()" class="btn-primary text-white px-8 py-3 rounded-full font-semibold">
+                            Activate Camera
+                        </button>
+                    </div>
+
+                    <div id="analysis-progress" class="hidden">
+                        <div class="text-center mb-8">
+                            <div class="relative w-32 h-32 mx-auto mb-4">
+                                <svg class="progress-ring w-32 h-32">
+                                    <circle class="progress-ring-circle" stroke="var(--rich-gold)" stroke-width="4" fill="transparent" r="40" cx="64" cy="64"/>
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center">
+                                    <span id="progress-text" class="text-2xl font-bold text-gray-800">0%</span>
+                                </div>
+                            </div>
+                            <p id="analysis-status" class="text-lg text-gray-600">Analyzing skin tone...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade-in">
+                    <div id="analysis-results" class="hidden">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6">Your Skin Analysis Results</h3>
+                        <div class="space-y-6">
+                            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-lg font-semibold text-gray-700">Skin Tone</span>
+                                    <span id="skin-tone" class="text-lg font-bold text-gradient">Deep Rich</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-3">
+                                    <div id="tone-bar" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-lg font-semibold text-gray-700">Hydration Level</span>
+                                    <span id="hydration-level" class="text-lg font-bold text-gradient">Optimal</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-3">
+                                    <div id="hydration-bar" class="bg-gradient-to-r from-blue-400 to-teal-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                </div>
+                            </div>
+
+                            <div class="bg-white rounded-2xl p-6 shadow-lg">
+                                <div class="flex items-center justify-between mb-4">
+                                    <span class="text-lg font-semibold text-gray-700">Texture Quality</span>
+                                    <span id="texture-level" class="text-lg font-bold text-gradient">Smooth</span>
+                                </div>
+                                <div class="w-full bg-gray-200 rounded-full h-3">
+                                    <div id="texture-bar" class="bg-gradient-to-r from-green-400 to-emerald-500 h-3 rounded-full transition-all duration-1000" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <button onclick="generateRoutine()" class="btn-primary text-white px-8 py-3 rounded-full font-semibold w-full">
+                                Generate My Routine
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="analysis-intro" class="space-y-6">
+                        <div class="bg-white rounded-2xl p-6 shadow-lg">
+                            <h4 class="text-xl font-bold text-gray-800 mb-4">How It Works</h4>
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">1</div>
+                                    <p class="text-gray-600">Activate your camera and position your face in the frame</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">2</div>
+                                    <p class="text-gray-600">Our AI analyzes your skin tone, texture, and hydration levels</p>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">3</div>
+                                    <p class="text-gray-600">Receive personalized product recommendations and routine</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Personalized Routine Section -->
+    <section id="routine-section" class="py-20 bg-gradient-to-br from-gray-50 to-white hidden">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+                    Your Personalized Routine
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Based on your skin analysis, we've created a customized skincare routine using our premium African botanical formulations.
+                </p>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-12">
+                <div class="fade-in">
+                    <div class="bg-white rounded-3xl p-8 shadow-xl">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            <span class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">☀️</span>
+                            Morning Routine
+                        </h3>
+                        <div class="space-y-4" id="morning-routine">
+                            <!-- Dynamic content will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fade-in">
+                    <div class="bg-white rounded-3xl p-8 shadow-xl">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-6 flex items-center">
+                            <span class="w-8 h-8 bg-gradient-to-br from-purple-400 to-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm mr-3">🌙</span>
+                            Evening Routine
+                        </h3>
+                        <div class="space-y-4" id="evening-routine">
+                            <!-- Dynamic content will be inserted here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 fade-in">
+                <button onclick="viewProducts()" class="btn-primary text-white px-8 py-4 rounded-full text-lg font-semibold">
+                    Shop Your Routine
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section id="products-section" class="py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+                    Premium African Botanicals
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Discover our luxury skincare line featuring traditional African ingredients, scientifically formulated for modern beauty needs.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="card-hover bg-white rounded-3xl p-6 shadow-lg fade-in">
+                    <div class="w-full h-48 bg-gradient-to-br from-yellow-100 to-orange-100 rounded-2xl mb-6 flex items-center justify-center">
+                        <div class="text-6xl">🧴</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Purifying Cleanser</h3>
+                    <p class="text-gray-600 mb-4">Gentle yet effective cleanser with African black soap and shea butter</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-gradient">$45</span>
+                        <button class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-hover bg-white rounded-3xl p-6 shadow-lg fade-in">
+                    <div class="w-full h-48 bg-gradient-to-br from-blue-100 to-teal-100 rounded-2xl mb-6 flex items-center justify-center">
+                        <div class="text-6xl">💧</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Hydrating Moisturizer</h3>
+                    <p class="text-gray-600 mb-4">Deep hydration with marula oil and baobab extract</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-gradient">$65</span>
+                        <button class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-hover bg-white rounded-3xl p-6 shadow-lg fade-in">
+                    <div class="w-full h-48 bg-gradient-to-br from-purple-100 to-pink-100 rounded-2xl mb-6 flex items-center justify-center">
+                        <div class="text-6xl">✨</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Radiance Serum</h3>
+                    <p class="text-gray-600 mb-4">Brightening serum with rooibos and vitamin C</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-gradient">$85</span>
+                        <button class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card-hover bg-white rounded-3xl p-6 shadow-lg fade-in">
+                    <div class="w-full h-48 bg-gradient-to-br from-green-100 to-emerald-100 rounded-2xl mb-6 flex items-center justify-center">
+                        <div class="text-6xl">🌿</div>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-3">Rejuvenating Mask</h3>
+                    <p class="text-gray-600 mb-4">Weekly treatment with clay and botanical extracts</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-2xl font-bold text-gradient">$55</span>
+                        <button class="bg-gradient-to-r from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-semibold hover:shadow-lg transition-all">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-20 bg-gradient-to-br from-gray-50 to-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+                    Loved by Thousands
+                </h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                    Real results from real people who've discovered their perfect skincare routine
+                </p>
+            </div>
+
+            <div class="splide" id="testimonial-slider">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-3xl p-8 shadow-lg mx-4">
+                                <div class="flex items-center mb-6">
+                                    <img src="demos/spa/images/others/african-woman-portrait.jpg" alt="Customer" class="w-16 h-16 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-bold text-gray-800">Amara Okafor</h4>
+                                        <p class="text-gray-600">Lagos, Nigeria</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 mb-6 italic">"SoftRebel transformed my skincare routine. The AI analysis was spot-on, and my skin has never looked better. I love that it celebrates African beauty traditions."</p>
+                                <div class="flex text-yellow-400">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-3xl p-8 shadow-lg mx-4">
+                                <div class="flex items-center mb-6">
+                                    <img src="demos/spa/images/others/african-woman-portrait.jpg" alt="Customer" class="w-16 h-16 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-bold text-gray-800">Zanele Mbatha</h4>
+                                        <p class="text-gray-600">Johannesburg, South Africa</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 mb-6 italic">"Finally, skincare that understands my skin! The personalized recommendations work perfectly, and the ingredients feel so natural and authentic."</p>
+                                <div class="flex text-yellow-400">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </li>
+                        <li class="splide__slide">
+                            <div class="bg-white rounded-3xl p-8 shadow-lg mx-4">
+                                <div class="flex items-center mb-6">
+                                    <img src="demos/spa/images/others/african-woman-portrait.jpg" alt="Customer" class="w-16 h-16 rounded-full object-cover mr-4">
+                                    <div>
+                                        <h4 class="font-bold text-gray-800">Fatima Diallo</h4>
+                                        <p class="text-gray-600">Dakar, Senegal</p>
+                                    </div>
+                                </div>
+                                <p class="text-gray-700 mb-6 italic">"The combination of traditional African ingredients with modern AI technology is brilliant. My skin feels nourished and looks radiant."</p>
+                                <div class="flex text-yellow-400">
+                                    ⭐⭐⭐⭐⭐
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <div class="text-3xl font-bold text-gradient mb-4">SoftRebel</div>
+            <p class="text-gray-400 mb-6">Personalized AI Skincare for African Skin</p>
+            <p class="text-gray-500 text-sm">© 2024 SoftRebel. Celebrating African beauty traditions with modern technology.</p>
+        </div>
+    </footer>
+
+    <script src="js/explore.js"></script>
+</body>
+</html>
