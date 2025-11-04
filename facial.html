@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Facial Test - SoftRebel African Skincare Heritage</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --earth-brown: #3d2914;
+        --warm-sand: #f4e4bc;
+        --rich-gold: #d4af37;
+        --soft-cream: #fff8e7;
+        --terracotta: #c65d07;
+        --forest-green: #2d5016;
+        --soft-coral: #e07a5f;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--soft-cream) 0%,
+          var(--warm-sand) 100%
+        );
+        min-height: 100vh;
+      }
+
+      .glass-effect {
+        background: rgba(255, 248, 231, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 248, 231, 0.2);
+      }
+
+      .text-gradient {
+        background: linear-gradient(
+          135deg,
+          var(--rich-gold) 0%,
+          var(--terracotta) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .btn-primary {
+        background: linear-gradient(
+          135deg,
+          var(--rich-gold) 0%,
+          var(--terracotta) 100%
+        );
+        transition: all 0.3s ease;
+        transform-style: preserve-3d;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px) rotateX(5deg);
+        box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+      }
+
+      .camera-container {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        background: #000;
+        aspect-ratio: 4/3;
+      }
+
+      .face-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 200px;
+        height: 200px;
+        border: 3px solid #ff4081;
+        border-radius: 50%;
+        z-index: 10;
+      }
+
+      .analyzing-spinner {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #ff4081;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+
+      .result-bar {
+        background: #e0e0e0;
+        height: 8px;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+
+      .result-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #4caf50, #8bc34a);
+        transition: width 0.5s ease;
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      .fade-in.visible {
+        opacity: 1;
+        transform: translateY(0);
+        transition: all 0.6s ease;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 glass-effect">
+      <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center justify-between">
+          <div class="text-2xl font-bold text-gradient">SoftRebel</div>
+          <div class="hidden md:flex space-x-8">
+            <a
+              href="index.html"
+              class="text-gray-800 hover:text-yellow-600 transition-colors"
+              >Home</a
+            >
+            <a
+              href="products.html"
+              class="text-gray-800 hover:text-yellow-600 transition-colors"
+              >Products</a
+            >
+            <a
+              href="education.html"
+              class="text-gray-800 hover:text-yellow-600 transition-colors"
+              >Education</a
+            >
+            <a href="facial.html" class="text-yellow-600 font-semibold"
+              >Facial Test</a
+            >
+          </div>
+          <button class="md:hidden text-gray-800">
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 6h16M4 12h16M4 18h16"
+              ></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="pt-24 pb-16 min-h-screen">
+      <div class="max-w-7xl mx-auto px-6">
+        <!-- Header -->
+        <div class="text-center mb-12 fade-in">
+          <h1 class="text-4xl lg:text-5xl font-bold text-gray-800 mb-6">
+            Face Shape Detector & <span class="text-gradient">Analyzer</span> with AI
+          </h1>
+          <p class="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
+            Face Shape Detector & Face Analyzer detects main face shapes, including round, oval, 70+ facial traits, 5 personal colors, and scans for face ratio & symmetrical measurements. Unlimited use.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4 text-sm text-blue-600">
+            <span>Free Consultation for API, SDK & More</span>
+            <span>Explore More: Skin Analysis, Face Reshape, Foundation Shade Finder</span>
+          </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+          <!-- Camera Section -->
+          <div class="bg-white rounded-3xl p-8 shadow-xl">
+            <div class="camera-container mb-6" id="cameraContainer">
+              <video id="video" class="w-full h-full object-cover" autoplay muted playsinline></video>
+              <canvas id="canvas" class="hidden"></canvas>
+              
+              <!-- Status indicators -->
+              <div id="statusIndicators" class="absolute top-4 left-4 right-4 flex justify-between z-20" style="display: none;">
+                <div id="lightingStatus" class="bg-red-500 text-white px-3 py-1 rounded text-sm font-semibold">
+                  Lighting<br>Not Good
+                </div>
+                <div id="lookStatus" class="bg-red-500 text-white px-3 py-1 rounded text-sm font-semibold">
+                  Look Straight<br>Not Good
+                </div>
+                <div id="positionStatus" class="bg-red-500 text-white px-3 py-1 rounded text-sm font-semibold">
+                  Face Position<br>Not Good
+                </div>
+              </div>
+              
+              <!-- Face overlay with text -->
+              <div class="face-overlay" id="faceOverlay" style="display: none;">
+                <div class="absolute inset-0 flex items-center justify-center text-white text-center font-semibold">
+                  <div>
+                    <div class="text-lg mb-2">Keep your face</div>
+                    <div class="text-lg">inside the circle</div>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Placeholder when camera is off -->
+              <div id="cameraPlaceholder" class="flex flex-col items-center justify-center h-full text-gray-500">
+                <div class="text-6xl mb-4">📷</div>
+                <p class="text-lg mb-4">Keep your face inside the circle</p>
+                <button id="startCamera" class="btn-primary text-white px-6 py-3 rounded-full font-semibold">
+                  START OVER
+                </button>
+              </div>
+
+              <!-- Analyzing state -->
+              <div id="analyzingState" class="flex flex-col items-center justify-center h-full bg-black bg-opacity-75 text-white" style="display: none;">
+                <div class="analyzing-spinner mb-4"></div>
+                <p class="text-lg">Analyzing...</p>
+              </div>
+            </div>
+
+            <!-- Sample faces -->
+            <div class="grid grid-cols-4 gap-2 mb-6">
+              <img src="https://via.placeholder.com/80x80/f0f0f0/666?text=Face1" class="rounded-lg" alt="Sample face 1">
+              <img src="https://via.placeholder.com/80x80/f0f0f0/666?text=Face2" class="rounded-lg" alt="Sample face 2">
+              <img src="https://via.placeholder.com/80x80/f0f0f0/666?text=Face3" class="rounded-lg" alt="Sample face 3">
+              <img src="https://via.placeholder.com/80x80/f0f0f0/666?text=Face4" class="rounded-lg" alt="Sample face 4">
+            </div>
+
+            <button id="tryMyself" class="w-full bg-pink-500 text-white py-3 rounded-full font-semibold hover:bg-pink-600 transition-colors">
+              TRY MYSELF
+            </button>
+          </div>
+
+          <!-- Results Section -->
+          <div class="bg-white rounded-3xl p-8 shadow-xl">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">Analysis Result</h2>
+            
+            <!-- Tabs -->
+            <div class="flex space-x-6 mb-6 border-b">
+              <button class="tab-btn text-pink-500 border-b-2 border-pink-500 pb-2 font-semibold" data-tab="attributes">
+                FACE ATTRIBUTES & TONES
+              </button>
+              <button class="tab-btn text-gray-500 pb-2" data-tab="ratio">
+                FACIAL RATIO
+              </button>
+              <button class="tab-btn text-gray-500 pb-2" data-tab="skin">
+                SKIN ANALYSIS
+              </button>
+            </div>
+
+            <!-- Analysis Results -->
+            <div id="analysisResults" class="space-y-6">
+              <!-- Face Attributes -->
+              <div class="analysis-section" id="attributes-section">
+                <div class="grid grid-cols-2 gap-6">
+                  <div>
+                    <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                      <span class="mr-2">👤</span> FACE
+                    </h3>
+                    <div class="space-y-3">
+                      <div>
+                        <div class="flex justify-between text-sm mb-1">
+                          <span>Skin Tone</span>
+                          <span>Face Shape</span>
+                        </div>
+                        <div class="result-bar">
+                          <div class="result-fill" style="width: 0%"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                      <span class="mr-2">👁️</span> EYES
+                    </h3>
+                    <div class="space-y-3">
+                      <div>
+                        <div class="flex justify-between text-sm mb-1">
+                          <span>Eye Color</span>
+                          <span>Eye Shape</span>
+                          <span>Eye Size</span>
+                          <span>Eye Angle</span>
+                          <span>Eye Distance</span>
+                        </div>
+                        <div class="result-bar">
+                          <div class="result-fill" style="width: 0%"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="text-sm mb-1">Eyelid</div>
+                        <div class="result-bar">
+                          <div class="result-fill" style="width: 0%"></div>
+                        </div>
+                      </div>
+                      <div class="grid grid-cols-5 gap-2 text-xs">
+                        <div>
+                          <div class="mb-1">Eyebrow Color</div>
+                          <div class="result-bar h-2">
+                            <div class="result-fill" style="width: 0%"></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div class="mb-1">Eyebrow Shape</div>
+                          <div class="result-bar h-2">
+                            <div class="result-fill" style="width: 0%"></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div class="mb-1">Thickness</div>
+                          <div class="result-bar h-2">
+                            <div class="result-fill" style="width: 0%"></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div class="mb-1">Eyebrow Distance</div>
+                          <div class="result-bar h-2">
+                            <div class="result-fill" style="width: 0%"></div>
+                          </div>
+                        </div>
+                        <div>
+                          <div class="mb-1">Thinness</div>
+                          <div class="result-bar h-2">
+                            <div class="result-fill" style="width: 0%"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 mt-6">
+                  <div>
+                    <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                      <span class="mr-2">🦷</span> BROWS
+                    </h3>
+                    <div class="text-sm mb-1">Shortness</div>
+                    <div class="result-bar">
+                      <div class="result-fill" style="width: 0%"></div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                      <span class="mr-2">👄</span> LIPS
+                    </h3>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <div class="mb-1">Lip Color</div>
+                        <div class="result-bar h-2">
+                          <div class="result-fill" style="width: 0%"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="mb-1">Lip Shape</div>
+                        <div class="result-bar h-2">
+                          <div class="result-fill" style="width: 0%"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 mt-6">
+                  <div>
+                    <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                      <span class="mr-2">👃</span> NOSE
+                    </h3>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                      <div>
+                        <div class="mb-1">Nose Width</div>
+                        <div class="result-bar h-2">
+                          <div class="result-fill" style="width: 0%"></div>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="mb-1">Nose Length</div>
+                        <div class="result-bar h-2">
+                          <div class="result-fill" style="width: 0%"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                      <span class="mr-2">😊</span> CHEEKBONES
+                    </h3>
+                    <div class="text-sm mb-1">Cheekbones</div>
+                    <div class="result-bar">
+                      <div class="result-fill" style="width: 0%"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="mt-6">
+                  <h3 class="font-semibold text-gray-700 mb-3 flex items-center">
+                    <span class="mr-2">💇</span> HAIR
+                  </h3>
+                  <div class="text-sm mb-1">Hair Color</div>
+                  <div class="result-bar">
+                    <div class="result-fill" style="width: 0%"></div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Placeholder for other tabs -->
+              <div class="analysis-section hidden" id="ratio-section">
+                <p class="text-gray-500">Facial ratio analysis will be displayed here...</p>
+              </div>
+
+              <div class="analysis-section hidden" id="skin-section">
+                <p class="text-gray-500">Skin analysis results will be displayed here...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+      <div class="max-w-7xl mx-auto px-6 text-center">
+        <div class="text-3xl font-bold text-gradient mb-4">SoftRebel</div>
+        <p class="text-gray-400 mb-6">
+          Personalized AI Skincare for African Skin
+        </p>
+        <p class="text-gray-500 text-sm">
+          © 2024 SoftRebel. Celebrating African beauty traditions with modern
+          technology.
+        </p>
+      </div>
+    </footer>
+
+    <script>
+      let stream = null;
+      let isAnalyzing = false;
+
+      // DOM elements
+      const video = document.getElementById('video');
+      const canvas = document.getElementById('canvas');
+      const cameraPlaceholder = document.getElementById('cameraPlaceholder');
+      const faceOverlay = document.getElementById('faceOverlay');
+      const analyzingState = document.getElementById('analyzingState');
+      const statusIndicators = document.getElementById('statusIndicators');
+      const startCameraBtn = document.getElementById('startCamera');
+      const tryMyselfBtn = document.getElementById('tryMyself');
+      const lightingStatus = document.getElementById('lightingStatus');
+      const lookStatus = document.getElementById('lookStatus');
+      const positionStatus = document.getElementById('positionStatus');
+
+      // Tab functionality
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const tabName = btn.dataset.tab;
+          
+          // Update active tab
+          document.querySelectorAll('.tab-btn').forEach(t => {
+            t.classList.remove('text-pink-500', 'border-b-2', 'border-pink-500');
+            t.classList.add('text-gray-500');
+          });
+          btn.classList.add('text-pink-500', 'border-b-2', 'border-pink-500');
+          btn.classList.remove('text-gray-500');
+
+          // Show corresponding section
+          document.querySelectorAll('.analysis-section').forEach(section => {
+            section.classList.add('hidden');
+          });
+          document.getElementById(tabName + '-section').classList.remove('hidden');
+        });
+      });
+
+      // Camera functionality
+      async function startCamera() {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ 
+            video: { 
+              width: { ideal: 640 },
+              height: { ideal: 480 },
+              facingMode: 'user'
+            } 
+          });
+          
+          video.srcObject = stream;
+          cameraPlaceholder.style.display = 'none';
+          video.style.display = 'block';
+          faceOverlay.style.display = 'block';
+          statusIndicators.style.display = 'flex';
+          
+          // Start status simulation
+          simulateStatusUpdates();
+          
+        } catch (err) {
+          console.error('Error accessing camera:', err);
+          alert('Unable to access camera. Please ensure you have granted camera permissions.');
+        }
+      }
+
+      // Simulate status updates for demo
+      function simulateStatusUpdates() {
+        // Initially all red (Not Good)
+        setTimeout(() => {
+          // Improve lighting after 2 seconds
+          lightingStatus.className = 'bg-green-500 text-white px-3 py-1 rounded text-sm font-semibold';
+          lightingStatus.innerHTML = 'Lighting<br>Good';
+        }, 2000);
+
+        setTimeout(() => {
+          // Improve look direction after 3 seconds
+          lookStatus.className = 'bg-green-500 text-white px-3 py-1 rounded text-sm font-semibold';
+          lookStatus.innerHTML = 'Look Straight<br>Good';
+        }, 3000);
+
+        setTimeout(() => {
+          // Improve face position after 4 seconds
+          positionStatus.className = 'bg-green-500 text-white px-3 py-1 rounded text-sm font-semibold';
+          positionStatus.innerHTML = 'Face Position<br>Good';
+          
+          // Change face overlay to green when all conditions are met
+          faceOverlay.style.borderColor = '#4caf50';
+        }, 4000);
+      }
+
+      function stopCamera() {
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+          stream = null;
+        }
+        video.style.display = 'none';
+        faceOverlay.style.display = 'none';
+        statusIndicators.style.display = 'none';
+        cameraPlaceholder.style.display = 'flex';
+        
+        // Reset status indicators to red
+        lightingStatus.className = 'bg-red-500 text-white px-3 py-1 rounded text-sm font-semibold';
+        lightingStatus.innerHTML = 'Lighting<br>Not Good';
+        lookStatus.className = 'bg-red-500 text-white px-3 py-1 rounded text-sm font-semibold';
+        lookStatus.innerHTML = 'Look Straight<br>Not Good';
+        positionStatus.className = 'bg-red-500 text-white px-3 py-1 rounded text-sm font-semibold';
+        positionStatus.innerHTML = 'Face Position<br>Not Good';
+        faceOverlay.style.borderColor = '#ff4081';
+      }
+
+      function captureAndAnalyze() {
+        if (!stream || isAnalyzing) return;
+        
+        isAnalyzing = true;
+        
+        // Show analyzing state
+        analyzingState.style.display = 'flex';
+        
+        // Simulate analysis process
+        setTimeout(() => {
+          analyzingState.style.display = 'none';
+          showResults();
+          isAnalyzing = false;
+        }, 3000);
+      }
+
+      function showResults() {
+        // Animate result bars
+        const resultBars = document.querySelectorAll('.result-fill');
+        resultBars.forEach((bar, index) => {
+          setTimeout(() => {
+            const randomWidth = Math.random() * 80 + 20; // 20-100%
+            bar.style.width = randomWidth + '%';
+          }, index * 100);
+        });
+      }
+
+      // Event listeners
+      startCameraBtn.addEventListener('click', startCamera);
+      tryMyselfBtn.addEventListener('click', () => {
+        if (!stream) {
+          // If camera is not started, start it first
+          startCamera();
+        } else {
+          // If camera is already running, proceed to analyze
+          captureAndAnalyze();
+        }
+      });
+
+      // Fade in animation
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, observerOptions);
+
+      document.querySelectorAll('.fade-in').forEach(el => {
+        observer.observe(el);
+      });
+
+      // Auto-start camera on page load
+      window.addEventListener('load', () => {
+        setTimeout(() => {
+          document.querySelector('.fade-in').classList.add('visible');
+        }, 100);
+      });
+
+      // Clean up the stream when the page is unloaded
+      window.addEventListener('beforeunload', () => {
+        if (stream) {
+          stream.getTracks().forEach(track => track.stop());
+        }
+      });
+    </script>
+</body>
+</html>
